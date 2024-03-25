@@ -8,17 +8,7 @@ import "js/jsonrpc.mjs" as Jsonrpc
 Item {
     id: root
     readonly property string file: "plasma/wallpapers/com.github.catsout.wallpaperEngineKde/contents/pyext.py"
-    readonly property string source: {
-        const sh = [
-            `EXT=${file}`,
-            `WKD="no_pyext_file_found"`,
-            "[ -f /usr/share/$EXT ] && WKD=/usr/share/$EXT",
-            "[ -f \"$HOME/.local/share/$EXT\" ] && WKD=\"$HOME/.local/share/$EXT\"",
-            "[ -f \"$XDG_DATA_HOME/$EXT\" ] && WKD=\"$XDG_DATA_HOME/$EXT\"", 
-            `exec python3 "$WKD" "${ws_server.url}"`
-        ].join("\n");
-        return sh;
-    }
+    readonly property string source: `exec python3 "/run/current-system/sw/share/${file}" "${ws_server.url}"`
     readonly property bool ok: ws_server.socket && ws_server.socket.status == WebSocket.Open
 
     property string _log
